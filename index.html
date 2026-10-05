@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Лабораторна робота №4</h1>
+
+    <h2>Студенти</h2>
+
+    <button id="addButton">Додати студента</button>
+
+    <form id="addForm" style="display: none;">
+        <input type="text" id="name" placeholder="Ім'я" required>
+
+        <select id="group" required></select>
+
+        <input type="number" id="age" placeholder="Вік" required>
+
+        <button type="submit">Зберегти</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ім'я</th>
+                <th>Група</th>
+                <th>Вік</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+    </table>
+
+
+    <h2>Групи</h2>
+
+    <form id="groupForm">
+        <input type="text" id="groupName" placeholder="Назва групи" required>
+        <button type="submit">Додати групу</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+    <th>Назва групи</th>
+    <th>Дії</th>
+            </tr>
+        </thead>
+
+        <tbody id="groupTableBody"></tbody>
+    </table>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
