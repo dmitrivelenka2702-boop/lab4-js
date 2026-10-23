@@ -1,0 +1,40 @@
+name: Build MiyDen APK
+on:
+  push:
+    branches: [miy-den-build-20261023]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decode project
+        run: |
+          mkdir -p miy-den-android
+          base64 -d miyden_project.b64 > miyden.zip
+          unzip -q miyden.zip -d miy-den-android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Build APK
+        working-directory: miy-den-android
+        run: gradle :app:assembleDebug --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MiyDen-APK
+          path: miy-den-android/app/build/outputs/apk/debug/app-debug.apk
