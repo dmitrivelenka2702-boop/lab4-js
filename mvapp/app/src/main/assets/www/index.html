@@ -1,0 +1,41 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#6D5DFB"><title>Мої витрати PRO</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<div id="app">
+<header><div><div class="eyebrow">Мої фінанси</div><h1>Мої витрати <span>PRO</span></h1></div><button class="iconbtn" id="quickAdd" title="Додати витрату">＋</button></header>
+<div id="accessBanner" class="banner hidden"><div><b>Увімкни автооблік</b><small>Дозволь читати сповіщення А-Банку, Ощаду, Привату й mono.</small></div><button onclick="openAccess()">Увімкнути</button></div>
+<main>
+<section class="page active" data-page="home">
+  <div class="summary-grid"><div class="card hero"><small>Витрачено цього місяця</small><strong id="monthSpent">0 ₴</strong><div class="budgetline"><span id="budgetText">Бюджет не задано</span><span id="budgetPct">—</span></div><div class="progress"><i id="budgetBar"></i></div></div><div class="card mini"><small>Сьогодні</small><strong id="todaySpent">0 ₴</strong></div><div class="card mini"><small>Операцій</small><strong id="monthCount">0</strong></div></div>
+  <div class="section-title"><h2>Останні витрати</h2><button class="linkbtn" onclick="showPage('transactions')">Усі</button></div><div id="recentList" class="list"></div>
+</section>
+
+<section class="page" data-page="transactions">
+  <div class="section-title"><h2>Витрати</h2><button class="primary small" onclick="openExpense()">＋ Додати</button></div>
+  <div class="searchbox"><input id="searchInput" placeholder="Пошук: магазин, банк, категорія…" oninput="renderTransactions()"></div>
+  <div id="transactionsList" class="list"></div>
+</section>
+
+<section class="page" data-page="stats">
+  <h2>Статистика</h2><div class="card"><small>Куди пішли гроші цього місяця</small><div id="categoryChart" class="bars"></div></div>
+  <div class="card"><small>Останні 14 днів</small><div id="dailyChart" class="columns"></div></div>
+</section>
+
+<section class="page" data-page="plans">
+  <div class="section-title"><h2>Великі покупки</h2><button class="primary small" onclick="openGoal()">＋ Ціль</button></div><div id="goalsList" class="list"></div>
+  <div class="section-title topgap"><h2>Борги</h2><button class="primary small" onclick="openDebt()">＋ Борг</button></div><div id="debtsList" class="list"></div>
+</section>
+
+<section class="page" data-page="settings">
+  <h2>Налаштування</h2>
+  <div class="card settings-card"><label>Місячний бюджет, грн</label><div class="row"><input id="budgetInput" type="number" inputmode="decimal" min="0" placeholder="Наприклад 30000"><button class="primary" onclick="saveBudget()">Зберегти</button></div></div>
+  <div class="card settings-card"><b>Автоматичний облік банків</b><p>Після дозволу програма локально читає сповіщення від А-Банку, Ощадбанку, ПриватБанку та monobank і намагається витягти суму, магазин і категорію.</p><button class="primary wide" onclick="openAccess()">Доступ до сповіщень</button><div id="accessStatus" class="status"></div></div>
+  <div class="card settings-card"><b>Швидка готівкова витрата</b><p>Можна сказати голосом: «350 гривень аптека».</p><button class="secondary wide" onclick="Android.startVoice()">🎙 Голосове введення</button></div>
+  <div class="card settings-card"><b>Резервна копія</b><p>Дані зберігаються тільки на телефоні. Експорт/імпорт — JSON-файл.</p><div class="row"><button class="secondary" onclick="Android.exportBackup()">Експорт</button><button class="secondary" onclick="Android.importBackup()">Імпорт</button></div></div>
+  <div class="note">Сповіщення банків можуть змінювати формат. Якщо якась операція не розпізнається — її можна додати вручну, а парсер потім допиляти під конкретний текст.</div>
+</section>
+</main>
+<nav><button class="nav active" data-target="home">⌂<span>Головна</span></button><button class="nav" data-target="transactions">₴<span>Витрати</span></button><button class="nav" data-target="stats">▥<span>Статистика</span></button><button class="nav" data-target="plans">◎<span>Плани</span></button><button class="nav" data-target="settings">⚙<span>Налашт.</span></button></nav>
+</div>
+
+<div id="modal" class="modal hidden"><div class="sheet"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<script src="app.js"></script></body></html>
