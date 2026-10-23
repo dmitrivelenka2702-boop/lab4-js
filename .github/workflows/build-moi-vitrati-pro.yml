@@ -1,0 +1,45 @@
+name: Build Moi Vitrati PRO APK
+on:
+  push:
+    branches: [moi-vitrati-pro-build-20261023]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble web app
+        run: |
+          cat mvapp/app/src/main/assets/www/app.part0 mvapp/app/src/main/assets/www/app.part1 mvapp/app/src/main/assets/www/app.part2 > mvapp/app/src/main/assets/www/app.js
+          node --check mvapp/app/src/main/assets/www/app.js
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)
+          echo "Using sdkmanager: $SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Build APK
+        working-directory: mvapp
+        run: gradle :app:assembleDebug --stacktrace
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MoiVitratiPRO-APK
+          path: mvapp/app/build/outputs/apk/debug/app-debug.apk
