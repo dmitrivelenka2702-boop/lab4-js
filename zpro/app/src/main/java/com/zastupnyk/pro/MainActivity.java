@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
    }catch(Exception e){return "{\"tasks\":[],\"stats\":{}}";}
   }
   @JavascriptInterface public void openNotificationAccess(){runOnUiThread(()->startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));}
+  @JavascriptInterface public void openMailSync(){runOnUiThread(()->{Intent i=new Intent(Intent.ACTION_VIEW,android.net.Uri.parse("https://script.google.com/macros/s/AKfycbwolURgpDFlNqPGS8T_XTC18NFoIhkvnLy7HN4c82VxBG7WSrfODNYMtOhk3RMueAd4/exec"));startActivity(i);});}
   @JavascriptInterface public long addManual(String subject){
    long id=db.addTask(System.currentTimeMillis(),"",subject,"manual",subject,"manual-"+System.nanoTime());refresh();return id;
   }
